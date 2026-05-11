@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Azimute Company | Estratégia High Ticket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="./AZIMUTE.svg" type="image/x-icon">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#00c300',
+                            dark: '#0a0a0a',
+                            light: '#f4f4f5',
+                            gray: '#18181b',
+                            darker: '#050505'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Esconder scrollbar mantendo funcionalidade */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        
+        html:not(.dark) .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Animações de Hover dos Cards (Efeito Shine) */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        @media (hover: hover) {
+            .card-hover::before {
+                content: '';
+                position: absolute;
+                top: 0; left: -150%;
+                width: 50%; height: 100%;
+                background: linear-gradient(to right, transparent, rgba(0, 195, 0, 0.1), transparent);
+                transform: skewX(-20deg);
+                transition: all 0.6s ease;
+                pointer-events: none;
+                z-index: 10;
+            }
+            .card-hover:hover::before {
+                left: 150%;
+            }
+            .card-hover:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 35px -10px rgba(0, 195, 0, 0.2);
+                border-color: #00c300;
+            }
+        }
+
+        /* Premium Card Shine Especial */
+        .card-premium {
+            overflow: hidden;
+        }
+        .card-premium::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: skewX(-20deg);
+            animation: shinePremium 4s infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+        @keyframes shinePremium {
+            0% { left: -150%; }
+            20% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* Animações de Entrada (Scroll Reveal Avançado) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Flutuação da Logo */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+
+        /* Fundo Blob */
+        @keyframes blob {
+            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            33% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); }
+            66% { transform: translate(-50%, -50%) scale(0.9) rotate(-5deg); }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+        }
+        .animate-blob { animation: blob 15s infinite alternate ease-in-out; }
+
+        /* Marquee (Texto Infinito) */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+        @media (hover: hover) {
+            .animate-marquee:hover { animation-play-state: paused; }
+        }
+
+        /* Grid Animado para Background */
+        .bg-animated-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(0, 195, 0, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 195, 0, 0.03) 1px, transparent 1px);
+            animation: moveGrid 15s linear infinite;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+        @keyframes moveGrid {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40px); }
+        }
+
+        /* Mouse Glow no Hero */
+        #hero-section { position: relative; }
+        @media (hover: hover) {
+            #hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: radial-gradient(circle 500px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 195, 0, 0.08), transparent 50%);
+                pointer-events: none;
+                z-index: 1;
+                transition: background 0.3s ease;
+            }
+            html:not(.dark) #hero-section::before {
+                background: radial-gradient(circle 500px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 195, 0, 0.12), transparent 50%);
+            }
+        }
+
+        .logo-shadow { filter: drop-shadow(0px 2px 5px rgba(0,0,0,0.4)); }
+        
+        /* Viewport fix */
+        .min-h-svh { min-height: 100svh; }
+        
+        /* Bloqueio de scroll para menu mobile */
+        body.menu-open { overflow: hidden; }
+    </style>
+</head>
+<body class="bg-white dark:bg-brand-dark text-gray-900 dark:text-white transition-colors duration-300 antialiased selection:bg-brand-green selection:text-black pb-20 md:pb-0">
+
+    <!-- Navegação -->
+    <nav class="fixed w-full z-50 glass-nav border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <div class="container mx-auto px-5 md:px-6 h-20 flex items-center justify-between relative z-50">
+            <a href="#" class="flex items-center gap-2 md:gap-3 group">
+                <img src="AZIMUTE.svg" alt="Azimute Company Logo" class="h-8 md:h-10 w-auto animate-float logo-shadow transition-transform group-hover:scale-105">
+                <span class="font-display font-bold text-lg md:text-xl tracking-tight uppercase">Azimute<span class="text-brand-green">.</span></span>
+            </a>
+
+            <!-- Menu Desktop -->
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <a href="#sobre" class="hover:text-brand-green transition-colors">Sobre Nós</a>
+                <a href="#solucoes" class="hover:text-brand-green transition-colors">Soluções</a>
+                
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none" aria-label="Alternar Tema">
+                    <svg id="icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+
+                <a href="https://wa.me/5512991908948" target="_blank" class="relative group inline-block bg-brand-green text-black px-6 py-2.5 font-display font-bold text-sm uppercase tracking-wider overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] transition-all hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]">
+                    <span class="relative z-10">Falar com Assessor</span>
+                    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity z-0"></div>
+                </a>
+            </div>
+
+            <!-- Botão Mobile (Hambúrguer) -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 focus:outline-none relative z-50 text-gray-900 dark:text-white transition-transform">
+                <svg id="icon-menu" class="w-7 h-7 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                <svg id="icon-close" class="w-7 h-7 absolute top-2 left-2 opacity-0 transition-opacity duration-300 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Menu Mobile Overlay (Full Screen) -->
+        <div id="mobile-menu" class="fixed inset-0 bg-white/95 dark:bg-brand-dark/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-center items-center gap-8 px-6">
+            <a href="#sobre" class="mobile-link text-3xl font-display font-black uppercase tracking-widest hover:text-brand-green transition-colors">Sobre Nós</a>
+            <a href="#solucoes" class="mobile-link text-3xl font-display font-black uppercase tracking-widest hover:text-brand-green transition-colors">Soluções</a>
+            
+            <div class="w-16 h-px bg-gray-300 dark:bg-gray-700 my-2"></div>
+            
+            <div class="flex items-center gap-4">
+                <span class="font-medium text-sm text-gray-500 uppercase tracking-widest">Tema</span>
+                <button id="theme-toggle-mobile" class="p-3 bg-gray-100 dark:bg-gray-800 rounded-full focus:outline-none">
+                    <svg class="w-6 h-6 theme-icon-mobile" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
+
+            <a href="https://wa.me/5512991908948" class="mobile-link mt-8 w-full max-w-sm bg-brand-green text-black px-8 py-5 text-center font-display font-black text-lg uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all">
+                Falar com Assessor
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Mobile otimizado com svh) -->
+    <section id="hero-section" class="pt-28 pb-16 min-h-svh md:min-h-[90vh] flex flex-col justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-animated-grid pointer-events-none -z-10"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-brand-green/15 md:bg-brand-green/10 dark:bg-brand-green/20 dark:md:bg-brand-green/15 blur-[80px] md:blur-[120px] rounded-full pointer-events-none -z-10 animate-blob"></div>
+        
+        <div class="container mx-auto px-5 md:px-6 max-w-5xl text-center relative z-10">
+            <div class="inline-block border border-brand-green text-brand-green px-4 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-8 bg-brand-green/10 reveal backdrop-blur-sm">
+                Aviso: Não somos uma agência comum
+            </div>
+            <!-- Tipografia agressiva responsiva -->
+            <h1 class="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-[0.95] mb-6 md:mb-8 uppercase reveal delay-100">
+                Pare de queimar dinheiro com <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-green to-green-300">amadores.</span>
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 md:mb-12 max-w-2xl mx-auto font-medium reveal delay-200 px-2">
+                Transformamos sua marca em uma máquina de vendas High Ticket. Estruturamos ecossistemas de conversão para empresas e agências que exigem ROI.
+            </p>
+            <div class="flex flex-col items-center justify-center gap-4 reveal delay-300 px-4">
+                <a href="#solucoes" class="w-full sm:w-auto bg-brand-green text-black px-8 md:px-10 py-4 md:py-5 font-display font-black text-sm md:text-base uppercase tracking-widest hover:bg-green-500 transition-colors flex items-center justify-center gap-3 relative overflow-hidden group">
+                    <span class="relative z-10">Ver Arsenal Tático</span>
+                    <svg class="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shine_1.5s_ease-out] hidden md:block"></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Faixa Marquee de Conversão -->
+    <div class="w-full bg-brand-green text-black py-3 md:py-4 overflow-hidden flex border-y border-black dark:border-white relative z-20">
+        <div class="animate-marquee font-display font-black uppercase text-base md:text-xl tracking-[0.15em] md:tracking-[0.2em] flex items-center gap-6 md:gap-8">
+            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
+            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
+            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
+            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
+            <span>FUNIL IMPLACÁVEL</span> <span class="opacity-50">•</span>
+            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
+            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
+            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
+            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
+            <span>FUNIL IMPLACÁVEL</span>
+        </div>
+        <div class="animate-marquee font-display font-black uppercase text-base md:text-xl tracking-[0.15em] md:tracking-[0.2em] flex items-center gap-6 md:gap-8" aria-hidden="true">
+            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
+            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
+            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
+            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
+            <span>FUNIL IMPLACÁVEL</span> <span class="opacity-50">•</span>
+            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
+            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
+            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
+            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
+            <span>FUNIL IMPLACÁVEL</span>
+        </div>
+    </div>
+
+    <!-- Sobre Nós -->
+    <section id="sobre" class="py-20 md:py-24 bg-gray-50 dark:bg-brand-darker border-b border-gray-200 dark:border-gray-900 relative">
+        <div class="container mx-auto px-5 md:px-6">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-24 items-center">
+                <div class="reveal">
+                    <h2 class="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tighter uppercase mb-6 leading-tight">
+                        A Engenharia <br class="hidden md:block">Por Trás do <br><span class="text-brand-green">Seu Lucro.</span>
+                    </h2>
+                    <div class="w-20 md:w-24 h-1.5 md:h-2 bg-brand-green mb-6 md:mb-8 transition-all hover:w-32 duration-300"></div>
+                </div>
+                <div class="space-y-5 md:space-y-6 text-gray-600 dark:text-gray-400 text-base md:text-lg lg:text-xl">
+                    <p class="reveal delay-100 leading-relaxed">
+                        A <strong class="text-gray-900 dark:text-white border-b-2 border-brand-green">Azimute Company</strong> é uma agência de assessoria empresarial, inteligência comercial e estruturação de funis de vendas de altíssima conversão.
+                    </p>
+                    <p class="reveal delay-200 leading-relaxed">
+                        Não vendemos "artes bonitas" ou curtidas. Nós arquitetamos sistemas de captação precisos para clientes High Ticket, agências, empresas e operações que não aceitam perder mercado.
+                    </p>
+                    <div class="reveal delay-300 p-5 md:p-6 bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg md:shadow-xl border-l-4 border-l-brand-green relative overflow-hidden group mt-4">
+                        <div class="absolute inset-0 bg-brand-green/5 transform scale-x-0 md:group-hover:scale-x-100 transition-transform origin-left duration-500 hidden md:block"></div>
+                        <p class="text-gray-900 dark:text-white font-medium italic relative z-10 text-sm md:text-base">
+                            "Seu único trabalho deve ser fechar os negócios. Nós garantimos que a oportunidade chegue até sua mesa, quente e pronta para a conversão."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soluções (Carrossel) -->
+    <section id="solucoes" class="py-20 md:py-24 relative bg-white dark:bg-brand-dark overflow-hidden">
+        <div class="container mx-auto px-5 md:px-6 mb-10 md:mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-6">
+            <div class="reveal">
+                <h2 class="font-display font-black text-4xl md:text-6xl tracking-tighter uppercase mb-2">Arsenal de <span class="text-brand-green">Vendas</span></h2>
+                <p class="text-gray-500 dark:text-gray-400 font-medium text-base md:text-lg">Deslize para acessar os serviços. Escolha sua arma tática.</p>
+            </div>
+            
+            <!-- Controles Desktop -->
+            <div class="hidden md:flex gap-3 reveal delay-100">
+                <button id="btn-prev" class="w-14 h-14 flex items-center justify-center border-2 border-gray-300 dark:border-gray-700 hover:border-brand-green hover:bg-brand-green/10 text-gray-500 hover:text-brand-green rounded-full transition-all focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="btn-next" class="w-14 h-14 flex items-center justify-center border-2 border-gray-300 dark:border-gray-700 hover:border-brand-green hover:bg-brand-green/10 text-gray-500 hover:text-brand-green rounded-full transition-all focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Container do Carrossel (Ajustado para mobile) -->
+        <div class="w-full reveal delay-200">
+            <!-- padding left/right customizado no mobile para mostrar o próximo card cortado -->
+            <div id="carousel-track" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar pb-10 md:pb-16 pt-2 px-5 md:px-[calc((100vw-1280px)/2+24px)] gap-4 md:gap-6 items-stretch scroll-smooth">
+                
+                <!-- Card 1 -->
+                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
+                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
+                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">01. Estrutura</div>
+                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Site Landing Page</h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Páginas ultra-otimizadas com foco único em fazer seu cliente clicar no botão de compra. Design agressivo.</p>
+                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
+                        <span class="text-2xl md:text-3xl">R$</span> 100<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/unid</span>
+                    </div>
+                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
+                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
+                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">02. Retenção</div>
+                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Edição de Vídeo</h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Cortes cirúrgicos, sound design imersivo e dinamismo projetado para segurar a atenção até o último segundo.</p>
+                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
+                        <span class="text-2xl md:text-3xl">R$</span> 100<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/vídeo</span>
+                    </div>
+                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
+                </div>
+
+                <!-- Card 5 (Premium) -->
+                <div class="w-[85vw] max-w-[340px] md:max-w-none md:min-w-[440px] snap-center shrink-0 bg-gray-900 dark:bg-[#000000] border border-brand-green p-6 md:p-8 flex flex-col relative shadow-[0_0_20px_rgba(0,195,0,0.15)] md:shadow-[0_0_40px_rgba(0,195,0,0.2)] transform md:-translate-y-4 card-premium">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-brand-green z-20"></div>
+                    <div class="absolute -top-3 md:-top-4 right-4 md:right-6 bg-brand-green text-black text-[10px] md:text-xs font-black uppercase tracking-widest px-3 md:px-4 py-1 md:py-1.5 animate-pulse z-20">O Mapa Completo</div>
+                    
+                    <div class="text-xs md:text-sm text-brand-green font-bold uppercase tracking-widest mb-2 md:mb-3 mt-1 md:mt-2">05. Premium</div>
+                    <h3 class="font-display font-black text-2xl md:text-4xl uppercase mb-3 md:mb-4 text-white">Análise + Estratégia</h3>
+                    <p class="text-sm md:text-lg text-gray-400 mb-6 md:mb-8 flex-grow">Consultoria pesada. Auditamos seu negócio, mapeamos o mercado e entregamos a planta arquitetônica para escalar suas vendas.</p>
+                    <div class="font-display font-black text-5xl md:text-6xl mb-5 md:mb-6 text-white border-b border-gray-800 pb-5 relative z-10">
+                        <span class="text-3xl md:text-4xl text-brand-green">R$</span> 497<span class="text-sm md:text-lg text-gray-500 font-sans font-normal">/projeto</span>
+                    </div>
+                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center bg-brand-green text-black px-4 md:px-6 py-4 md:py-5 font-display font-black uppercase tracking-widest text-sm md:text-lg hover:bg-green-400 transition-colors shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] md:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">Comprar Estratégia</a>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
+                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
+                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">06. Escala</div>
+                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Tráfego Pago <br class="hidden md:block"><span class="text-sm md:text-xl text-brand-green block mt-1">(Apenas Imagem)</span></h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Distribuição brutal. Colocamos sua oferta na frente de quem já tem o cartão na mão pronto para comprar.</p>
+                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
+                        <span class="text-2xl md:text-3xl">R$</span> 597<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/mês</span>
+                    </div>
+                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Iniciar Escala</a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
+                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
+                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">03. Impacto</div>
+                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Post Promocional</h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Artes focadas na dor do seu cliente. O gancho visual perfeito para forçar o clique na timeline.</p>
+                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
+                        <span class="text-2xl md:text-3xl">R$</span> 50<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/arte</span>
+                    </div>
+                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
+                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
+                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">04. Inserção</div>
+                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Propaganda Áudio</h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Locução e roteiro tático para plataformas de streaming ou rádio. Entrando na mente do prospecto.</p>
+                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
+                        <span class="text-2xl md:text-3xl">R$</span> 50<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/áudio</span>
+                    </div>
+                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
+                </div>
+
+            </div>
+            
+            <!-- Barra de progresso visual (Mobile) -->
+            <div class="flex justify-center mt-6 md:hidden px-5 reveal delay-300">
+                <div class="w-full max-w-[200px] h-1.5 bg-gray-200 dark:bg-gray-800 overflow-hidden rounded-full">
+                    <div id="carousel-progress" class="h-full bg-brand-green w-1/4 transition-all duration-300 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Final -->
+    <section class="py-24 md:py-32 bg-brand-green text-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMCwwLDAsMC4xKSIvPjwvc3ZnPg==')] opacity-40"></div>
+        <div class="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 border-[20px] md:border-[30px] border-black/5 rounded-full -translate-y-1/2 translate-x-1/4 animate-spin" style="animation-duration: 20s;"></div>
+        
+        <div class="container mx-auto px-5 md:px-6 text-center relative z-10">
+            <h2 class="font-display font-black text-4xl md:text-7xl tracking-tighter uppercase mb-5 md:mb-6 reveal">O mercado não espera.</h2>
+            <p class="text-lg md:text-2xl font-medium mb-10 md:mb-12 max-w-3xl mx-auto reveal delay-100 leading-relaxed px-2">Enquanto você decide, seu concorrente acaba de fechar mais um contrato usando estratégias agressivas. Assuma o controle hoje.</p>
+            <a href="https://wa.me/5512991908948" class="inline-block bg-black text-white px-8 md:px-12 py-5 md:py-6 font-display font-black uppercase tracking-widest text-base md:text-xl hover:bg-gray-900 transition-all shadow-[6px_6px_0px_0px_rgba(255,255,255,0.4)] md:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px] reveal delay-200 group w-full sm:w-auto">
+                Iniciar Operação
+                <span class="inline-block ml-2 md:ml-3 transform transition-transform group-hover:translate-x-2">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-[#000000] border-t border-gray-200 dark:border-gray-900 pt-16 pb-24 md:py-16 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-green to-transparent opacity-50"></div>
+        
+        <div class="container mx-auto px-5 md:px-6 reveal">
+            <div class="grid md:grid-cols-2 gap-8 md:gap-10 items-start md:items-center border-b border-gray-200 dark:border-gray-900 pb-10 md:pb-12 mb-8 text-center md:text-left">
+                <div class="flex flex-col items-center md:items-start">
+                    <a href="#" class="flex items-center gap-3 mb-5 group">
+                        <img src="AZIMUTE.svg" alt="Azimute Company Logo" class="h-10 md:h-12 w-auto logo-shadow transition-transform group-hover:rotate-12 duration-500">
+                        <span class="font-display font-black text-2xl md:text-3xl tracking-tight uppercase text-gray-900 dark:text-white">Azimute<span class="text-brand-green">.</span></span>
+                    </a>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base max-w-sm mx-auto md:mx-0">Inteligência comercial, captação e funis de vendas estruturados para negócios que não aceitam perder.</p>
+                </div>
+                <div class="flex flex-col items-center md:items-end gap-4 text-gray-900 dark:text-gray-300 font-medium text-base md:text-lg mt-4 md:mt-0">
+                    <a href="mailto:azimutecompany@gmail.com" class="hover:text-brand-green transition-colors flex items-center gap-3 group">
+                        <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        azimutecompany@gmail.com
+                    </a>
+                    <a href="https://wa.me/5512991908948" class="hover:text-brand-green transition-colors flex items-center gap-3 group">
+                        <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        +55 (12) 99190-8948
+                    </a>
+                </div>
+            </div>
+            <div class="text-center text-xs md:text-sm text-gray-500 font-medium flex flex-col md:flex-row justify-between items-center gap-3">
+                <span>&copy; 2026 Azimute Company. Dominando Mercados.</span>
+                <span class="text-[10px] md:text-xs uppercase tracking-widest text-gray-400">Design por Azimute</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- STICKY CTA MOBILE (Apenas Celular) -->
+    <div id="mobile-sticky-cta" class="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-[#050505] border-t border-gray-200 dark:border-gray-800 p-4 z-40 transform translate-y-full transition-transform duration-300 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <a href="https://wa.me/5512991908948" class="flex items-center justify-center w-full bg-brand-green text-black py-4 font-display font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            Falar com Especialista
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Lógica do Modo Claro/Escuro
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const iconSun = document.getElementById('icon-sun');
+        const iconMoon = document.getElementById('icon-moon');
+        const htmlElement = document.documentElement;
+
+        function updateIcons(isDark) {
+            if (isDark) {
+                iconSun?.classList.remove('hidden');
+                iconMoon?.classList.add('hidden');
+            } else {
+                iconSun?.classList.add('hidden');
+                iconMoon?.classList.remove('hidden');
+            }
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateIcons(true);
+            } else {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateIcons(false);
+            }
+        }
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+        const toggleLogic = () => {
+            const isDark = htmlElement.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
+        };
+
+        themeToggleBtn?.addEventListener('click', toggleLogic);
+        themeToggleMobile?.addEventListener('click', toggleLogic);
+
+        // 2. Lógica do Novo Menu Mobile Overlay
+        const btnMobile = document.getElementById('mobile-menu-btn');
+        const menuMobile = document.getElementById('mobile-menu');
+        const iconMenu = document.getElementById('icon-menu');
+        const iconClose = document.getElementById('icon-close');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let menuOpen = false;
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            if (menuOpen) {
+                menuMobile.classList.remove('translate-x-full');
+                iconMenu.style.opacity = '0';
+                iconClose.style.opacity = '1';
+                document.body.classList.add('menu-open');
+            } else {
+                menuMobile.classList.add('translate-x-full');
+                iconMenu.style.opacity = '1';
+                iconClose.style.opacity = '0';
+                document.body.classList.remove('menu-open');
+            }
+        }
+
+        btnMobile?.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // 3. Lógica do Carrossel de Soluções com responsividade aprimorada
+        const track = document.getElementById('carousel-track');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const progressBar = document.getElementById('carousel-progress');
+
+        if (track && btnPrev && btnNext) {
+            const scrollAmount = window.innerWidth > 768 ? 450 : 300; 
+
+            btnNext.addEventListener('click', () => {
+                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            btnPrev.addEventListener('click', () => {
+                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            track.addEventListener('scroll', () => {
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                // Previne erro de divisão por zero caso o carrossel não role
+                if (maxScroll <= 0) return; 
+                
+                const scrollPercentage = (track.scrollLeft / maxScroll) * 100;
+                const finalWidth = Math.max(25, scrollPercentage); 
+                
+                if(progressBar) {
+                    progressBar.style.width = `${finalWidth}%`;
+                }
+
+                btnPrev.style.opacity = track.scrollLeft <= 5 ? '0.3' : '1';
+                btnNext.style.opacity = track.scrollLeft >= maxScroll - 5 ? '0.3' : '1';
+            });
+        }
+
+        // 4. Lógica de Scroll Reveal
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -50px 0px', // Aciona um pouco antes no mobile
+            threshold: 0.1 
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+
+        // 5. Lógica do Sticky CTA Mobile (Aparece após rolar o Hero)
+        const stickyCta = document.getElementById('mobile-sticky-cta');
+        const heroSection = document.getElementById('hero-section');
+        
+        if (stickyCta && heroSection) {
+            window.addEventListener('scroll', () => {
+                const heroBottom = heroSection.getBoundingClientRect().bottom;
+                // Se a parte de baixo do hero passou da tela, mostra o CTA
+                if (heroBottom < 100) {
+                    stickyCta.classList.remove('translate-y-full');
+                } else {
+                    stickyCta.classList.add('translate-y-full');
+                }
+            });
+        }
+
+        // 6. Efeito de Mouse Glow (Apenas Desktop)
+        if (heroSection && window.matchMedia("(hover: hover)").matches) {
+            heroSection.addEventListener('mousemove', (e) => {
+                const rect = heroSection.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                heroSection.style.setProperty('--mouse-x', `${x}px`);
+                heroSection.style.setProperty('--mouse-y', `${y}px`);
+            });
+            heroSection.addEventListener('mouseleave', () => {
+                heroSection.style.setProperty('--mouse-x', `50%`);
+                heroSection.style.setProperty('--mouse-y', `50%`);
+            });
+        }
+    </script>
+</body>
+</html>
