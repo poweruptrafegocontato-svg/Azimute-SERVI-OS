@@ -1,589 +1,503 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark scroll-smooth">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Azimute Company | Estratégia High Ticket</title>
+    <title>Afini Seguros | Proteção Premium para Motos Esportivas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="./AZIMUTE.svg" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif'],
-                    },
                     colors: {
-                        brand: {
-                            green: '#00c300',
-                            dark: '#0a0a0a',
-                            light: '#f4f4f5',
-                            gray: '#18181b',
-                            darker: '#050505'
+                        afini: {
+                            yellow: '#F5B324',
+                            dark: '#111111',
+                            darker: '#0A0A0A',
+                            gray: '#222222',
+                            light: '#F8F9FA'
+                        }
+                    },
+                    fontFamily: {
+                        'futura': ['Futura', 'Trebuchet MS', 'sans-serif'], 
+                        'inter': ['Inter', 'sans-serif'],
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to right bottom, rgba(10, 10, 10, 0.95), rgba(17, 17, 17, 0.6)), url('https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=2070&auto=format&fit=crop')",
+                        'texture-grunge': "url('https://www.transparenttextures.com/patterns/cubes.png')"
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'bg-zoom': 'bg-zoom 20s linear infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        'bg-zoom': {
+                            '0%': { transform: 'scale(1)' },
+                            '100%': { transform: 'scale(1.05)' },
                         }
                     }
                 }
             }
         }
     </script>
+
     <style>
-        /* Esconder scrollbar mantendo funcionalidade */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        /* Custom Fonts application */
+        h1, h2, h3, h4, .font-title { font-family: 'Futura', 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 800; }
+        .font-subtitle { font-family: 'Inter', sans-serif; font-style: italic; }
+        body, p, span, a, button, input, select { font-family: 'Montserrat', sans-serif; }
+
+        /* Smooth Scrollbar for desktop */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #F5B324; }
+
+        /* Glitch/Hover effect for premium feel */
+        .premium-hover { transition: all 0.3s ease; }
+        .premium-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(245, 179, 36, 0.5); }
+
+        /* Floating WhatsApp Button Animation */
+        .float-wa { animation: pulse-wa 2s infinite; }
+        @keyframes pulse-wa {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+
+        /* Scroll Reveal Animations (JS Triggered) */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         
-        .glass-nav {
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-        
-        html:not(.dark) .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
+        .reveal.active, .reveal-left.active, .reveal-right.active, .reveal-scale.active {
+            opacity: 1; transform: translate(0) scale(1);
         }
 
-        /* Animações de Hover dos Cards (Efeito Shine) */
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-        @media (hover: hover) {
-            .card-hover::before {
-                content: '';
-                position: absolute;
-                top: 0; left: -150%;
-                width: 50%; height: 100%;
-                background: linear-gradient(to right, transparent, rgba(0, 195, 0, 0.1), transparent);
-                transform: skewX(-20deg);
-                transition: all 0.6s ease;
-                pointer-events: none;
-                z-index: 10;
-            }
-            .card-hover:hover::before {
-                left: 150%;
-            }
-            .card-hover:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 15px 35px -10px rgba(0, 195, 0, 0.2);
-                border-color: #00c300;
-            }
-        }
-
-        /* Premium Card Shine Especial */
-        .card-premium {
-            overflow: hidden;
-        }
-        .card-premium::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -150%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
-            transform: skewX(-20deg);
-            animation: shinePremium 4s infinite;
-            pointer-events: none;
-            z-index: 10;
-        }
-        @keyframes shinePremium {
-            0% { left: -150%; }
-            20% { left: 150%; }
-            100% { left: 150%; }
-        }
-
-        /* Animações de Entrada (Scroll Reveal Avançado) */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px) scale(0.98);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.2, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+        /* Delays */
         .delay-100 { transition-delay: 100ms; }
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
 
-        /* Flutuação da Logo */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-4px); }
-            100% { transform: translateY(0px); }
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-
-        /* Fundo Blob */
-        @keyframes blob {
-            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-            33% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); }
-            66% { transform: translate(-50%, -50%) scale(0.9) rotate(-5deg); }
-            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-        }
-        .animate-blob { animation: blob 15s infinite alternate ease-in-out; }
-
-        /* Marquee (Texto Infinito) */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            display: inline-block;
-            white-space: nowrap;
-            animation: marquee 20s linear infinite;
-        }
-        @media (hover: hover) {
-            .animate-marquee:hover { animation-play-state: paused; }
-        }
-
-        /* Grid Animado para Background */
-        .bg-animated-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(0, 195, 0, 0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(0, 195, 0, 0.03) 1px, transparent 1px);
-            animation: moveGrid 15s linear infinite;
-            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-        }
-        @keyframes moveGrid {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(40px); }
-        }
-
-        /* Mouse Glow no Hero */
-        #hero-section { position: relative; }
-        @media (hover: hover) {
-            #hero-section::before {
-                content: '';
-                position: absolute;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background: radial-gradient(circle 500px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 195, 0, 0.08), transparent 50%);
-                pointer-events: none;
-                z-index: 1;
-                transition: background 0.3s ease;
-            }
-            html:not(.dark) #hero-section::before {
-                background: radial-gradient(circle 500px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 195, 0, 0.12), transparent 50%);
-            }
-        }
-
-        .logo-shadow { filter: drop-shadow(0px 2px 5px rgba(0,0,0,0.4)); }
-        
-        /* Viewport fix */
-        .min-h-svh { min-height: 100svh; }
+        /* Mobile Menu Transitions */
+        #mobile-menu { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hamburger-line { transition: all 0.3s ease; }
+        .menu-open .line-1 { transform: translateY(8px) rotate(45deg); }
+        .menu-open .line-2 { opacity: 0; }
+        .menu-open .line-3 { transform: translateY(-8px) rotate(-45deg); }
     </style>
 </head>
-<body class="bg-white dark:bg-brand-dark text-gray-900 dark:text-white transition-colors duration-300 antialiased selection:bg-brand-green selection:text-black pb-20 md:pb-0">
+<body class="bg-afini-darker text-white antialiased overflow-x-hidden selection:bg-afini-yellow selection:text-black">
 
-    <!-- Navegação -->
-    <nav class="fixed w-full z-[60] glass-nav border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
-        <div class="container mx-auto px-5 md:px-6 h-20 flex items-center justify-between relative z-[60]">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-2 md:gap-3 group">
-                <img src="AZIMUTE.svg" alt="Azimute Company Logo" class="h-8 md:h-10 w-auto animate-float logo-shadow transition-transform group-hover:scale-105">
-                <span class="font-display font-bold text-lg md:text-xl tracking-tight uppercase">Azimute<span class="text-brand-green">.</span></span>
-            </a>
-
-            <!-- Controles do Lado Direito -->
-            <div class="flex items-center gap-4 md:gap-8 font-medium text-sm">
-                <!-- Links Desktop -->
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#sobre" class="hover:text-brand-green transition-colors">Sobre Nós</a>
-                    <a href="#solucoes" class="hover:text-brand-green transition-colors">Soluções</a>
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-afini-dark/90 backdrop-blur-md border-b border-white/5" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center z-50 relative">
+                    <a href="#" class="flex items-center group">
+                        <img src="logotipo AFFINI.jpg" alt="Afini Seguros" class="h-14 sm:h-16 w-auto object-contain rounded-md shadow-lg shadow-afini-yellow/10 transition-transform duration-300 group-hover:scale-105">
+                    </a>
                 </div>
-                
-                <!-- Toggle Tema (Visível no Mobile e Desktop) -->
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none" aria-label="Alternar Tema">
-                    <svg id="icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    <svg id="icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                </button>
 
-                <!-- CTA Desktop -->
-                <a href="https://wa.me/5512991908948" target="_blank" class="hidden md:inline-block relative group bg-brand-green text-black px-6 py-2.5 font-display font-bold text-sm uppercase tracking-wider overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] transition-all hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]">
-                    <span class="relative z-10">Falar com Assessor</span>
-                    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity z-0"></div>
-                </a>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#diferenciais" class="text-gray-300 hover:text-afini-yellow transition-colors text-sm font-semibold tracking-wide">DIFERENCIAIS</a>
+                    <a href="#cobertura" class="text-gray-300 hover:text-afini-yellow transition-colors text-sm font-semibold tracking-wide">COBERTURAS</a>
+                    <a href="#contato" class="bg-afini-yellow text-afini-dark px-6 py-2.5 rounded font-bold uppercase text-sm premium-hover shadow-lg shadow-afini-yellow/20">
+                        Cotação Exclusiva
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center z-50 relative">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none p-2" aria-label="Menu">
+                        <div class="w-6 h-5 flex flex-col justify-between">
+                            <span class="hamburger-line line-1 w-full h-0.5 bg-afini-yellow rounded"></span>
+                            <span class="hamburger-line line-2 w-full h-0.5 bg-afini-yellow rounded"></span>
+                            <span class="hamburger-line line-3 w-full h-0.5 bg-afini-yellow rounded"></span>
+                        </div>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="hero-section" class="pt-28 pb-16 min-h-svh md:min-h-[90vh] flex flex-col justify-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-animated-grid pointer-events-none -z-10"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-brand-green/15 md:bg-brand-green/10 dark:bg-brand-green/20 dark:md:bg-brand-green/15 blur-[80px] md:blur-[120px] rounded-full pointer-events-none -z-10 animate-blob"></div>
-        
-        <div class="container mx-auto px-5 md:px-6 max-w-5xl text-center relative z-10">
-            <div class="inline-block border border-brand-green text-brand-green px-4 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-8 bg-brand-green/10 reveal backdrop-blur-sm">
-                Aviso: Não somos uma agência comum
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-afini-darker/98 backdrop-blur-xl z-40 transform translate-x-full flex flex-col justify-center items-center h-screen w-screen px-6">
+        <div class="flex flex-col items-center space-y-8 w-full">
+            <a href="#diferenciais" class="mobile-link text-2xl font-title text-white hover:text-afini-yellow transition-colors">Diferenciais</a>
+            <a href="#cobertura" class="mobile-link text-2xl font-title text-white hover:text-afini-yellow transition-colors">Coberturas</a>
+            <a href="#contato" class="mobile-link w-full text-center mt-8 bg-afini-yellow text-afini-dark px-8 py-4 rounded font-bold uppercase text-lg shadow-[0_0_20px_rgba(245,179,36,0.3)]">
+                Proteger Minha Moto
+            </a>
+            
+            <!-- Mobile Trust Badges -->
+            <div class="mt-12 flex items-center gap-4 text-gray-400">
+                <svg class="w-5 h-5 text-afini-yellow" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                <span class="font-subtitle text-sm">Atendimento Sênior 24/7</span>
             </div>
-            <!-- Tipografia agressiva responsiva -->
-            <h1 class="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter leading-[0.95] mb-6 md:mb-8 uppercase reveal delay-100">
-                Pare de queimar dinheiro com <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-green to-green-300">amadores.</span>
-            </h1>
-            <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 md:mb-12 max-w-2xl mx-auto font-medium reveal delay-200 px-2">
-                Transformamos sua marca em uma máquina de vendas High Ticket. Estruturamos ecossistemas de conversão para empresas e agências que exigem ROI.
-            </p>
-            <div class="flex flex-col items-center justify-center gap-4 reveal delay-300 px-4">
-                <a href="#solucoes" class="w-full sm:w-auto bg-brand-green text-black px-8 md:px-10 py-4 md:py-5 font-display font-black text-sm md:text-base uppercase tracking-widest hover:bg-green-500 transition-colors flex items-center justify-center gap-3 relative overflow-hidden group">
-                    <span class="relative z-10">Ver Arsenal Tático</span>
-                    <svg class="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                    <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shine_1.5s_ease-out] hidden md:block"></div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Faixa Marquee de Conversão -->
-    <div class="w-full bg-brand-green text-black py-3 md:py-4 overflow-hidden flex border-y border-black dark:border-white relative z-20">
-        <div class="animate-marquee font-display font-black uppercase text-base md:text-xl tracking-[0.15em] md:tracking-[0.2em] flex items-center gap-6 md:gap-8">
-            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
-            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
-            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
-            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
-            <span>FUNIL IMPLACÁVEL</span> <span class="opacity-50">•</span>
-            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
-            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
-            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
-            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
-            <span>FUNIL IMPLACÁVEL</span>
-        </div>
-        <div class="animate-marquee font-display font-black uppercase text-base md:text-xl tracking-[0.15em] md:tracking-[0.2em] flex items-center gap-6 md:gap-8" aria-hidden="true">
-            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
-            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
-            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
-            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
-            <span>FUNIL IMPLACÁVEL</span> <span class="opacity-50">•</span>
-            <span>CONVERSÃO EXTREMA</span> <span class="opacity-50">•</span>
-            <span>ESTRATÉGIA HIGH TICKET</span> <span class="opacity-50">•</span>
-            <span>DOMÍNIO DE MERCADO</span> <span class="opacity-50">•</span>
-            <span>TRÁFEGO DE ELITE</span> <span class="opacity-50">•</span>
-            <span>FUNIL IMPLACÁVEL</span>
         </div>
     </div>
 
-    <!-- Sobre Nós -->
-    <section id="sobre" class="py-20 md:py-24 bg-gray-50 dark:bg-brand-darker border-b border-gray-200 dark:border-gray-900 relative">
-        <div class="container mx-auto px-5 md:px-6">
-            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-24 items-center">
-                <div class="reveal">
-                    <h2 class="font-display font-black text-4xl md:text-5xl lg:text-6xl tracking-tighter uppercase mb-6 leading-tight">
-                        A Engenharia <br class="hidden md:block">Por Trás do <br><span class="text-brand-green">Seu Lucro.</span>
-                    </h2>
-                    <div class="w-20 md:w-24 h-1.5 md:h-2 bg-brand-green mb-6 md:mb-8 transition-all hover:w-32 duration-300"></div>
+    <!-- 1. Hero Section -->
+    <header class="relative pt-32 pb-24 lg:pt-56 lg:pb-40 overflow-hidden">
+        <!-- Background animado -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center animate-bg-zoom scale-105"></div>
+            <div class="absolute inset-0 bg-texture-grunge opacity-20 mix-blend-overlay"></div>
+            <!-- Gradiente para mesclar com a próxima seção -->
+            <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-afini-darker to-transparent"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <!-- Tag de Autoridade -->
+                <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-afini-yellow/30 bg-black/50 backdrop-blur-sm mb-8">
+                    <span class="w-2 h-2 rounded-full bg-afini-yellow animate-pulse"></span>
+                    <span class="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-afini-yellow uppercase">Atendimento Premium 7 Dias/Semana</span>
                 </div>
-                <div class="space-y-5 md:space-y-6 text-gray-600 dark:text-gray-400 text-base md:text-lg lg:text-xl">
-                    <p class="reveal delay-100 leading-relaxed">
-                        A <strong class="text-gray-900 dark:text-white border-b-2 border-brand-green">Azimute Company</strong> é uma agência de assessoria empresarial, inteligência comercial e estruturação de funis de vendas de altíssima conversão.
-                    </p>
-                    <p class="reveal delay-200 leading-relaxed">
-                        Não vendemos "artes bonitas" ou curtidas. Nós arquitetamos sistemas de captação precisos para clientes High Ticket, agências, empresas e operações que não aceitam perder mercado.
-                    </p>
-                    <div class="reveal delay-300 p-5 md:p-6 bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg md:shadow-xl border-l-4 border-l-brand-green relative overflow-hidden group mt-4">
-                        <div class="absolute inset-0 bg-brand-green/5 transform scale-x-0 md:group-hover:scale-x-100 transition-transform origin-left duration-500 hidden md:block"></div>
-                        <p class="text-gray-900 dark:text-white font-medium italic relative z-10 text-sm md:text-base">
-                            "Seu único trabalho deve ser fechar os negócios. Nós garantimos que a oportunidade chegue até sua mesa, quente e pronta para a conversão."
-                        </p>
-                    </div>
+                
+                <!-- Headline -->
+                <h1 class="reveal delay-100 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-title text-white leading-[1.1] mb-6 drop-shadow-2xl">
+                    Sua Esportiva <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-afini-yellow to-yellow-200">Não Merece um Atendimento de Robô.</span>
+                </h1>
+                
+                <!-- Subtítulo -->
+                <p class="reveal delay-200 font-subtitle text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl leading-relaxed drop-shadow-md">
+                    Seguro de alta performance com a <b>Afini Seguros</b>. Sem call centers frios. Apenas proteção blindada e linha direta com especialistas quando você mais precisar.
+                </p>
+                
+                <!-- CTA -->
+                <div class="reveal delay-300 flex flex-col sm:flex-row gap-4">
+                    <a href="#contato" class="w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-afini-yellow text-afini-dark font-bold text-lg uppercase tracking-wider rounded premium-hover hover:bg-yellow-400 shadow-[0_0_20px_rgba(245,179,36,0.2)]">
+                        Proteger Minha Moto Agora
+                        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
                 </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Estatísticas / Trust Bar Animada -->
+    <section class="bg-afini-dark border-y border-white/5 py-10 relative z-20 -mt-10 mx-4 sm:mx-8 lg:mx-auto max-w-6xl rounded-xl shadow-2xl">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 divide-x divide-white/10">
+            <div class="text-center px-2 reveal-scale">
+                <div class="text-3xl sm:text-4xl font-title text-afini-yellow mb-1"><span class="counter" data-target="500">0</span>+</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-bold">Esportivas Seguradas</div>
+            </div>
+            <div class="text-center px-2 reveal-scale delay-100">
+                <div class="text-3xl sm:text-4xl font-title text-afini-yellow mb-1"><span class="counter" data-target="100">0</span>%</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-bold">Aprovação de Sinistros</div>
+            </div>
+            <div class="text-center px-2 reveal-scale delay-200">
+                <div class="text-3xl sm:text-4xl font-title text-afini-yellow mb-1">ZERO</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-bold">Robôs no Atendimento</div>
+            </div>
+            <div class="text-center px-2 reveal-scale delay-300">
+                <div class="text-3xl sm:text-4xl font-title text-afini-yellow mb-1">24/7</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest text-gray-400 font-bold">Linha Direta Sênior</div>
             </div>
         </div>
     </section>
 
-    <!-- Soluções (Carrossel) -->
-    <section id="solucoes" class="py-20 md:py-24 relative bg-white dark:bg-brand-dark overflow-hidden">
-        <div class="container mx-auto px-5 md:px-6 mb-10 md:mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-6">
-            <div class="reveal">
-                <h2 class="font-display font-black text-4xl md:text-6xl tracking-tighter uppercase mb-2">Arsenal de <span class="text-brand-green">Vendas</span></h2>
-                <p class="text-gray-500 dark:text-gray-400 font-medium text-base md:text-lg">Deslize para acessar os serviços. Escolha sua arma tática.</p>
-            </div>
-            
-            <!-- Controles Desktop -->
-            <div class="hidden md:flex gap-3 reveal delay-100">
-                <button id="btn-prev" class="w-14 h-14 flex items-center justify-center border-2 border-gray-300 dark:border-gray-700 hover:border-brand-green hover:bg-brand-green/10 text-gray-500 hover:text-brand-green rounded-full transition-all focus:outline-none">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-                <button id="btn-next" class="w-14 h-14 flex items-center justify-center border-2 border-gray-300 dark:border-gray-700 hover:border-brand-green hover:bg-brand-green/10 text-gray-500 hover:text-brand-green rounded-full transition-all focus:outline-none">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </button>
+    <!-- 2. Diferenciais (A Dor & A Solução) -->
+    <section id="diferenciais" class="py-24 bg-afini-darker relative overflow-hidden">
+        <div class="absolute top-1/4 -left-64 w-96 h-96 bg-afini-yellow/5 rounded-full blur-[100px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                
+                <!-- Copywriting -->
+                <div class="order-2 lg:order-1">
+                    <h2 class="reveal-left text-3xl sm:text-4xl lg:text-5xl font-title mb-6 leading-tight">Você investiu alto na máquina.<br><span class="text-afini-yellow">Não economize na tranquilidade.</span></h2>
+                    
+                    <p class="reveal-left delay-100 font-subtitle text-lg sm:text-xl text-gray-400 mb-10 border-l-2 border-afini-yellow pl-5">
+                        Nós sabemos o que acontece nos finais de semana. Você sai para rodar, ocorre um imprevisto e você fica preso em uma URA de atendimento automático. Com a Afini, a história é outra.
+                    </p>
+
+                    <div class="space-y-6">
+                        <!-- Ponto 1 -->
+                        <div class="reveal-left delay-200 flex items-start gap-5 p-5 rounded-lg bg-[#151515] border border-white/5 hover:border-afini-yellow/40 transition-colors group">
+                            <div class="mt-1 bg-afini-dark p-3 rounded-md text-afini-yellow group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2 text-white">Contato Direto (Sem 0800 Frio)</h3>
+                                <p class="text-gray-400 text-sm sm:text-base leading-relaxed">Você fala diretamente com a nossa equipe sênior via WhatsApp. Sem filas de espera, sem robôs. Resolução imediata para quem não tem tempo a perder.</p>
+                            </div>
+                        </div>
+
+                        <!-- Ponto 2 -->
+                        <div class="reveal-left delay-300 flex items-start gap-5 p-5 rounded-lg bg-[#151515] border border-white/5 hover:border-afini-yellow/40 transition-colors group">
+                            <div class="mt-1 bg-afini-dark p-3 rounded-md text-afini-yellow group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2 text-white">Cobertura 100% FIPE + Acessórios</h3>
+                                <p class="text-gray-400 text-sm sm:text-base leading-relaxed">Proteção completa contra roubo, colisão e terceiros. Sabemos o valor dos seus upgrades e garantimos que macacão e capacete não fiquem de fora.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagem com animação flutuante -->
+                <div class="order-1 lg:order-2 relative reveal-right">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-afini-yellow/20 to-transparent rounded-2xl blur-2xl"></div>
+                    <div class="relative rounded-2xl overflow-hidden border border-white/10 bg-afini-dark p-2 animate-float shadow-2xl shadow-black">
+                        <!-- Imagem placeholder alta qualidade -->
+                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070&auto=format&fit=crop" alt="Moto Premium" class="w-full h-[400px] sm:h-[500px] object-cover rounded-xl filter grayscale-[15%] contrast-[1.15]">
+                        
+                        <!-- Badge de Segurança -->
+                        <div class="absolute bottom-6 right-6 lg:-right-6 bg-afini-yellow text-afini-dark p-4 rounded-xl shadow-[0_10px_30px_rgba(245,179,36,0.3)] flex items-center gap-3">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            <div>
+                                <div class="font-bold uppercase text-sm leading-tight font-title">Blindagem<br>Total</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </section>
 
-        <!-- Container do Carrossel -->
-        <div class="w-full reveal delay-200">
-            <div id="carousel-track" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar pb-10 md:pb-16 pt-2 px-5 md:px-[calc((100vw-1280px)/2+24px)] gap-4 md:gap-6 items-stretch scroll-smooth">
-                
+    <!-- 3. Vitrine de Seguros (Cards) -->
+    <section id="cobertura" class="py-24 bg-[#0d0d0d] border-y border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-title mb-4">ESPECIALISTAS EM ALTA CILINDRADA</h2>
+                <p class="font-subtitle text-gray-400 text-lg sm:text-xl max-w-3xl mx-auto">Nossas parcerias com as maiores seguradoras garantem planos sob medida para o seu estilo de pilotagem.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
-                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
-                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">01. Estrutura</div>
-                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Site Landing Page</h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Páginas ultra-otimizadas com foco único em fazer seu cliente clicar no botão de compra. Design agressivo.</p>
-                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
-                        <span class="text-2xl md:text-3xl">R$</span> 100<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/unid</span>
+                <div class="reveal-scale delay-100 bg-afini-darker border border-white/5 rounded-xl overflow-hidden group hover:border-afini-yellow/50 transition-all duration-500 hover:-translate-y-2 shadow-xl hover:shadow-afini-yellow/10">
+                    <div class="h-56 bg-black relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-afini-darker to-transparent z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?q=80&w=2070&auto=format&fit=crop" alt="Supersport" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-700">
                     </div>
-                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
+                    <div class="p-8 relative z-20 -mt-10">
+                        <div class="bg-afini-dark border border-white/10 inline-block px-3 py-1 rounded text-[10px] font-bold text-afini-yellow tracking-widest mb-4 uppercase shadow-lg">Perfil Premium</div>
+                        <h3 class="text-2xl font-bold mb-4 font-title text-white">SUPERSPORT & TRACK</h3>
+                        <ul class="text-sm text-gray-400 space-y-3 mb-8 font-montserrat">
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Cobertura Total 100% FIPE</li>
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Guincho sem limite de KM</li>
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Reposição de macacão e capacete</li>
+                        </ul>
+                        <a href="#contato" class="block text-center w-full py-4 border-2 border-afini-yellow text-afini-yellow font-bold uppercase text-sm rounded-md hover:bg-afini-yellow hover:text-afini-dark transition-colors">Cotar Este Plano</a>
+                    </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
-                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
-                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">02. Retenção</div>
-                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Edição de Vídeo</h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Cortes cirúrgicos, sound design imersivo e dinamismo projetado para segurar a atenção até o último segundo.</p>
-                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
-                        <span class="text-2xl md:text-3xl">R$</span> 100<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/vídeo</span>
+                <div class="reveal-scale delay-200 bg-afini-darker border border-white/5 rounded-xl overflow-hidden group hover:border-afini-yellow/50 transition-all duration-500 hover:-translate-y-2 shadow-xl hover:shadow-afini-yellow/10">
+                    <div class="h-56 bg-black relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-afini-darker to-transparent z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1558980394-4c7c9299fe96?q=80&w=2070&auto=format&fit=crop" alt="Naked" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-700">
                     </div>
-                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
-                </div>
-
-                <!-- Card 5 (Premium) -->
-                <div class="w-[85vw] max-w-[340px] md:max-w-none md:min-w-[440px] snap-center shrink-0 bg-gray-900 dark:bg-[#000000] border border-brand-green p-6 md:p-8 flex flex-col relative shadow-[0_0_20px_rgba(0,195,0,0.15)] md:shadow-[0_0_40px_rgba(0,195,0,0.2)] transform md:-translate-y-4 card-premium">
-                    <div class="absolute top-0 left-0 w-full h-1.5 bg-brand-green z-20"></div>
-                    <div class="absolute -top-3 md:-top-4 right-4 md:right-6 bg-brand-green text-black text-[10px] md:text-xs font-black uppercase tracking-widest px-3 md:px-4 py-1 md:py-1.5 animate-pulse z-20">O Mapa Completo</div>
-                    
-                    <div class="text-xs md:text-sm text-brand-green font-bold uppercase tracking-widest mb-2 md:mb-3 mt-1 md:mt-2">05. Premium</div>
-                    <h3 class="font-display font-black text-2xl md:text-4xl uppercase mb-3 md:mb-4 text-white">Análise + Estratégia</h3>
-                    <p class="text-sm md:text-lg text-gray-400 mb-6 md:mb-8 flex-grow">Consultoria pesada. Auditamos seu negócio, mapeamos o mercado e entregamos a planta arquitetônica para escalar suas vendas.</p>
-                    <div class="font-display font-black text-5xl md:text-6xl mb-5 md:mb-6 text-white border-b border-gray-800 pb-5 relative z-10">
-                        <span class="text-3xl md:text-4xl text-brand-green">R$</span> 497<span class="text-sm md:text-lg text-gray-500 font-sans font-normal">/projeto</span>
+                    <div class="p-8 relative z-20 -mt-10">
+                        <div class="bg-afini-dark border border-white/10 inline-block px-3 py-1 rounded text-[10px] font-bold text-afini-yellow tracking-widest mb-4 uppercase shadow-lg">Perfil Urbano</div>
+                        <h3 class="text-2xl font-bold mb-4 font-title text-white">NAKED ALTA CILINDRADA</h3>
+                        <ul class="text-sm text-gray-400 space-y-3 mb-8 font-montserrat">
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Rastreamento avançado incluso</li>
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Danos a terceiros ampliados</li>
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Assistência VIP 24h</li>
+                        </ul>
+                        <a href="#contato" class="block text-center w-full py-4 border-2 border-afini-yellow text-afini-yellow font-bold uppercase text-sm rounded-md hover:bg-afini-yellow hover:text-afini-dark transition-colors">Cotar Este Plano</a>
                     </div>
-                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center bg-brand-green text-black px-4 md:px-6 py-4 md:py-5 font-display font-black uppercase tracking-widest text-sm md:text-lg hover:bg-green-400 transition-colors shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] md:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">Comprar Estratégia</a>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
-                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
-                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">06. Escala</div>
-                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Tráfego Pago <br class="hidden md:block"><span class="text-sm md:text-xl text-brand-green block mt-1">(Apenas Imagem)</span></h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Distribuição brutal. Colocamos sua oferta na frente de quem já tem o cartão na mão pronto para comprar.</p>
-                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
-                        <span class="text-2xl md:text-3xl">R$</span> 597<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/mês</span>
-                    </div>
-                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Iniciar Escala</a>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
-                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
-                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">03. Impacto</div>
-                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Post Promocional</h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Artes focadas na dor do seu cliente. O gancho visual perfeito para forçar o clique na timeline.</p>
-                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
-                        <span class="text-2xl md:text-3xl">R$</span> 50<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/arte</span>
+                <div class="reveal-scale delay-300 bg-afini-darker border border-white/5 rounded-xl overflow-hidden group hover:border-afini-yellow/50 transition-all duration-500 hover:-translate-y-2 shadow-xl hover:shadow-afini-yellow/10">
+                    <div class="h-56 bg-black relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-afini-darker to-transparent z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?q=80&w=2070&auto=format&fit=crop" alt="Big Trail" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition duration-700">
                     </div>
-                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="w-[85vw] max-w-[320px] md:max-w-none md:min-w-[400px] snap-center shrink-0 bg-gray-50 dark:bg-brand-gray border border-gray-200 dark:border-gray-800 p-6 md:p-8 card-hover flex flex-col relative group">
-                    <div class="absolute top-0 right-0 w-1.5 md:w-2 h-full bg-transparent group-hover:bg-brand-green transition-colors z-20"></div>
-                    <div class="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest mb-2 md:mb-3">04. Inserção</div>
-                    <h3 class="font-display font-black text-xl md:text-3xl uppercase mb-3 md:mb-4 text-gray-900 dark:text-white">Propaganda Áudio</h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 md:mb-8 flex-grow">Locução e roteiro tático para plataformas de streaming ou rádio. Entrando na mente do prospecto.</p>
-                    <div class="font-display font-black text-4xl md:text-5xl mb-5 md:mb-6 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 pb-5 relative z-10">
-                        <span class="text-2xl md:text-3xl">R$</span> 50<span class="text-sm md:text-base text-gray-500 font-sans font-normal">/áudio</span>
+                    <div class="p-8 relative z-20 -mt-10">
+                        <div class="bg-afini-dark border border-white/10 inline-block px-3 py-1 rounded text-[10px] font-bold text-afini-yellow tracking-widest mb-4 uppercase shadow-lg">Perfil Viagem</div>
+                        <h3 class="text-2xl font-bold mb-4 font-title text-white">BIG TRAILS PREMIUM</h3>
+                        <ul class="text-sm text-gray-400 space-y-3 mb-8 font-montserrat">
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Extensão de perímetro (Mercosul)</li>
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Proteção para baús e faróis de milha</li>
+                            <li class="flex items-start gap-2"><span class="text-afini-yellow mt-0.5">✓</span> Hospedagem em caso de pane</li>
+                        </ul>
+                        <a href="#contato" class="block text-center w-full py-4 border-2 border-afini-yellow text-afini-yellow font-bold uppercase text-sm rounded-md hover:bg-afini-yellow hover:text-afini-dark transition-colors">Cotar Este Plano</a>
                     </div>
-                    <a href="https://wa.me/5512991908948" class="relative z-10 w-full text-center border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white px-4 md:px-6 py-3 md:py-4 font-display font-bold text-sm md:text-base uppercase hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors tracking-wide">Solicitar Agora</a>
-                </div>
-
-            </div>
-            
-            <!-- Barra de progresso visual (Mobile) -->
-            <div class="flex justify-center mt-6 md:hidden px-5 reveal delay-300">
-                <div class="w-full max-w-[200px] h-1.5 bg-gray-200 dark:bg-gray-800 overflow-hidden rounded-full">
-                    <div id="carousel-progress" class="h-full bg-brand-green w-1/4 transition-all duration-300 rounded-full"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Call to Action Final -->
-    <section class="py-24 md:py-32 bg-brand-green text-black relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMCwwLDAsMC4xKSIvPjwvc3ZnPg==')] opacity-40"></div>
-        <div class="absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 border-[20px] md:border-[30px] border-black/5 rounded-full -translate-y-1/2 translate-x-1/4 animate-spin" style="animation-duration: 20s;"></div>
+    <!-- 4. CTA Final Focado na Conversão (Lead) -->
+    <section id="contato" class="py-24 bg-afini-darker relative overflow-hidden">
+        <!-- Elementos de design -->
+        <div class="absolute top-0 right-0 w-full md:w-1/2 h-full bg-afini-yellow/5 transform md:skew-x-12 md:translate-x-32"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-afini-yellow/10 rounded-full blur-[120px]"></div>
         
-        <div class="container mx-auto px-5 md:px-6 text-center relative z-10">
-            <h2 class="font-display font-black text-4xl md:text-7xl tracking-tighter uppercase mb-5 md:mb-6 reveal">O mercado não espera.</h2>
-            <p class="text-lg md:text-2xl font-medium mb-10 md:mb-12 max-w-3xl mx-auto reveal delay-100 leading-relaxed px-2">Enquanto você decide, seu concorrente acaba de fechar mais um contrato usando estratégias agressivas. Assuma o controle hoje.</p>
-            <a href="https://wa.me/5512991908948" class="inline-block bg-black text-white px-8 md:px-12 py-5 md:py-6 font-display font-black uppercase tracking-widest text-base md:text-xl hover:bg-gray-900 transition-all shadow-[6px_6px_0px_0px_rgba(255,255,255,0.4)] md:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.4)] hover:shadow-none hover:translate-x-[6px] hover:translate-y-[6px] reveal delay-200 group w-full sm:w-auto">
-                Iniciar Operação
-                <span class="inline-block ml-2 md:ml-3 transform transition-transform group-hover:translate-x-2">→</span>
-            </a>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="reveal bg-[#111111] border-t-4 border-afini-yellow rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-6 sm:p-10 md:p-14 text-center border border-white/5">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-title mb-4 text-white">Pronto para blindar seu patrimônio?</h2>
+                <p class="font-subtitle text-gray-400 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">Preencha os dados básicos e receba uma cotação personalizada no seu WhatsApp, feita pela nossa equipe de especialistas.</p>
+                
+                <!-- Formulário Otimizado -->
+                <form class="space-y-5 max-w-lg mx-auto mb-8 text-left" id="lead-form" onsubmit="event.preventDefault(); alert('Em um ambiente real, isto enviaria o lead para o RD Station e redirecionaria para o WhatsApp.');">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">Seu Nome Completo</label>
+                        <input type="text" required placeholder="Ex: Carlos Albuquerque" class="w-full px-5 py-4 bg-black border border-white/10 rounded-lg focus:border-afini-yellow focus:ring-1 focus:ring-afini-yellow outline-none transition-all text-white font-montserrat text-lg">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">WhatsApp (com DDD)</label>
+                        <input type="tel" required placeholder="(11) 99999-9999" class="w-full px-5 py-4 bg-black border border-white/10 rounded-lg focus:border-afini-yellow focus:ring-1 focus:ring-afini-yellow outline-none transition-all text-white font-montserrat text-lg">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 ml-1">Estilo da Moto</label>
+                        <div class="relative">
+                            <select required class="w-full px-5 py-4 bg-black border border-white/10 rounded-lg focus:border-afini-yellow focus:ring-1 focus:ring-afini-yellow outline-none transition-all text-white font-montserrat text-lg appearance-none cursor-pointer">
+                                <option value="" disabled selected>Selecione o modelo...</option>
+                                <option value="esportiva">Esportiva (CBR, S1000RR, Panigale...)</option>
+                                <option value="naked">Naked (Z900, MT-09, CB1000...)</option>
+                                <option value="bigtrail">Big Trail (GS 1250, Tiger...)</option>
+                                <option value="outra">Outra / Custom Premium</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-afini-yellow">
+                                <svg class="fill-current h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full inline-flex justify-center items-center px-8 py-5 bg-afini-yellow text-afini-dark font-black text-lg sm:text-xl uppercase tracking-wider rounded-lg premium-hover hover:bg-yellow-400 shadow-[0_0_20px_rgba(245,179,36,0.3)] mt-4">
+                        Solicitar Cotação Agora
+                        <svg class="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </form>
+
+                <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 font-montserrat">
+                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Seus dados estão 100% seguros. Cotação sem compromisso.
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white dark:bg-[#000000] border-t border-gray-200 dark:border-gray-900 pt-16 pb-24 md:py-16 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-green to-transparent opacity-50"></div>
-        
-        <div class="container mx-auto px-5 md:px-6 reveal">
-            <div class="grid md:grid-cols-2 gap-8 md:gap-10 items-start md:items-center border-b border-gray-200 dark:border-gray-900 pb-10 md:pb-12 mb-8 text-center md:text-left">
-                <div class="flex flex-col items-center md:items-start">
-                    <a href="#" class="flex items-center gap-3 mb-5 group">
-                        <img src="AZIMUTE.svg" alt="Azimute Company Logo" class="h-10 md:h-12 w-auto logo-shadow transition-transform group-hover:rotate-12 duration-500">
-                        <span class="font-display font-black text-2xl md:text-3xl tracking-tight uppercase text-gray-900 dark:text-white">Azimute<span class="text-brand-green">.</span></span>
-                    </a>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base max-w-sm mx-auto md:mx-0">Inteligência comercial, captação e funis de vendas estruturados para negócios que não aceitam perder.</p>
-                </div>
-                <div class="flex flex-col items-center md:items-end gap-4 text-gray-900 dark:text-gray-300 font-medium text-base md:text-lg mt-4 md:mt-0">
-                    <a href="mailto:azimutecompany@gmail.com" class="hover:text-brand-green transition-colors flex items-center gap-3 group">
-                        <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        azimutecompany@gmail.com
-                    </a>
-                    <a href="https://wa.me/5512991908948" class="hover:text-brand-green transition-colors flex items-center gap-3 group">
-                        <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        +55 (12) 99190-8948
-                    </a>
-                </div>
+    <footer class="bg-[#050505] border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center">
+                <img src="logotipo AFFINI.jpg" alt="Afini Seguros" class="h-12 w-auto object-contain rounded-md opacity-90 hover:opacity-100 transition-opacity">
             </div>
-            <div class="text-center text-xs md:text-sm text-gray-500 font-medium flex flex-col md:flex-row justify-between items-center gap-3">
-                <span>&copy; 2026 Azimute Company. Dominando Mercados.</span>
-                <span class="text-[10px] md:text-xs uppercase tracking-widest text-gray-400">Design por Azimute</span>
+            <div class="text-xs sm:text-sm text-gray-600 font-montserrat text-center md:text-left">
+                &copy; 2026 Afini Corretora de Seguros. Todos os direitos reservados.<br>
+                Registro SUSEP: XXX.XXX.XXX-X | CNPJ: XX.XXX.XXX/0001-XX
+            </div>
+            <div class="flex gap-5">
+                <a href="#" class="text-gray-500 hover:text-afini-yellow transition-colors"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="#" class="text-gray-500 hover:text-afini-yellow transition-colors"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm3.98-10.84a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
             </div>
         </div>
     </footer>
 
-    <!-- STICKY CTA MOBILE (Apenas Celular) -->
-    <div id="mobile-sticky-cta" class="md:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-[#050505] border-t border-gray-200 dark:border-gray-800 p-4 z-[40] transform translate-y-full transition-transform duration-300 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
-        <a href="https://wa.me/5512991908948" class="flex items-center justify-center w-full bg-brand-green text-black py-4 font-display font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            Falar com Especialista
-        </a>
-    </div>
+    <!-- Floating WhatsApp CTA -->
+    <a href="https://wa.me/5511999999999?text=Olá,%20gostaria%20de%20uma%20cotação%20premium%20para%20minha%20moto%20esportiva" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.4)] flex items-center justify-center float-wa hover:bg-[#20bd5a] transition-all group hover:scale-110">
+        <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-3 transition-all duration-300 ease-in-out font-montserrat font-bold text-sm">
+            Falar com a Equipe
+        </span>
+    </a>
 
-    <!-- Scripts -->
+    <!-- Scripts (Animações e Menu Mobile) -->
     <script>
-        // 1. Lógica do Modo Claro/Escuro
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const iconSun = document.getElementById('icon-sun');
-        const iconMoon = document.getElementById('icon-moon');
-        const htmlElement = document.documentElement;
-
-        function updateIcons(isDark) {
-            if (isDark) {
-                iconSun?.classList.remove('hidden');
-                iconMoon?.classList.add('hidden');
-            } else {
-                iconSun?.classList.add('hidden');
-                iconMoon?.classList.remove('hidden');
-            }
-        }
-
-        function setTheme(theme) {
-            if (theme === 'dark') {
-                htmlElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                updateIcons(true);
-            } else {
-                htmlElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                updateIcons(false);
-            }
-        }
-
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setTheme('dark');
-        } else {
-            setTheme('light');
-        }
-
-        const toggleLogic = () => {
-            const isDark = htmlElement.classList.contains('dark');
-            setTheme(isDark ? 'light' : 'dark');
-        };
-
-        themeToggleBtn?.addEventListener('click', toggleLogic);
-
-        // 2. Lógica do Carrossel de Soluções com responsividade aprimorada
-        const track = document.getElementById('carousel-track');
-        const btnPrev = document.getElementById('btn-prev');
-        const btnNext = document.getElementById('btn-next');
-        const progressBar = document.getElementById('carousel-progress');
-
-        if (track && btnPrev && btnNext) {
-            const scrollAmount = window.innerWidth > 768 ? 450 : 300; 
-
-            btnNext.addEventListener('click', () => {
-                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            });
-
-            btnPrev.addEventListener('click', () => {
-                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            });
-
-            track.addEventListener('scroll', () => {
-                const maxScroll = track.scrollWidth - track.clientWidth;
-                // Previne erro de divisão por zero caso o carrossel não role
-                if (maxScroll <= 0) return; 
-                
-                const scrollPercentage = (track.scrollLeft / maxScroll) * 100;
-                const finalWidth = Math.max(25, scrollPercentage); 
-                
-                if(progressBar) {
-                    progressBar.style.width = `${finalWidth}%`;
-                }
-
-                btnPrev.style.opacity = track.scrollLeft <= 5 ? '0.3' : '1';
-                btnNext.style.opacity = track.scrollLeft >= maxScroll - 5 ? '0.3' : '1';
-            });
-        }
-
-        // 3. Lógica de Scroll Reveal
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -50px 0px', // Aciona um pouco antes no mobile
-            threshold: 0.1 
-        };
-
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(element => {
-            revealObserver.observe(element);
-        });
-
-        // 4. Lógica do Sticky CTA Mobile (Aparece após rolar o Hero)
-        const stickyCta = document.getElementById('mobile-sticky-cta');
-        const heroSection = document.getElementById('hero-section');
-        
-        if (stickyCta && heroSection) {
-            window.addEventListener('scroll', () => {
-                const heroBottom = heroSection.getBoundingClientRect().bottom;
-                // Se a parte de baixo do hero passou da tela, mostra o CTA
-                if (heroBottom < 100) {
-                    stickyCta.classList.remove('translate-y-full');
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            
+            function toggleMenu() {
+                btn.classList.toggle('menu-open');
+                if (menu.classList.contains('translate-x-full')) {
+                    menu.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden'; // Evita scroll do fundo
                 } else {
-                    stickyCta.classList.add('translate-y-full');
+                    menu.classList.add('translate-x-full');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            btn.addEventListener('click', toggleMenu);
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // 2. Scroll Reveal Animations com Intersection Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Dispara quando 15% do elemento estiver visível
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        
+                        // 3. Counter Animation (Estatísticas)
+                        if (entry.target.querySelector('.counter')) {
+                            const counters = entry.target.querySelectorAll('.counter');
+                            const speed = 200; // The lower the slower
+
+                            counters.forEach(counter => {
+                                const updateCount = () => {
+                                    const target = +counter.getAttribute('data-target');
+                                    const count = +counter.innerText;
+                                    const inc = target / speed;
+
+                                    if (count < target) {
+                                        counter.innerText = Math.ceil(count + inc);
+                                        setTimeout(updateCount, 15);
+                                    } else {
+                                        counter.innerText = target;
+                                    }
+                                };
+                                updateCount();
+                            });
+                        }
+                        
+                        // Desobserva após animar para não repetir
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Seleciona todos os elementos com as classes de reveal
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            revealElements.forEach(el => observer.observe(el));
+            
+            // 4. Navbar background opacidade no scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-lg');
+                } else {
+                    navbar.classList.remove('shadow-lg');
                 }
             });
-        }
-
-        // 5. Efeito de Mouse Glow (Apenas Desktop)
-        if (heroSection && window.matchMedia("(hover: hover)").matches) {
-            heroSection.addEventListener('mousemove', (e) => {
-                const rect = heroSection.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                heroSection.style.setProperty('--mouse-x', `${x}px`);
-                heroSection.style.setProperty('--mouse-y', `${y}px`);
-            });
-            heroSection.addEventListener('mouseleave', () => {
-                heroSection.style.setProperty('--mouse-x', `50%`);
-                heroSection.style.setProperty('--mouse-y', `50%`);
-            });
-        }
+        });
     </script>
 </body>
 </html>
